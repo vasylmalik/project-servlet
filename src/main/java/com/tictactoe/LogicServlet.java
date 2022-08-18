@@ -59,6 +59,9 @@ public class LogicServlet extends HttpServlet {
          */
         int emptyFieldIndex = field.getEmptyFieldIndex();
 
+        /**
+         * Если такая ячейка присутствует
+         */
         if (emptyFieldIndex >= 0){
             field.getField().put(emptyFieldIndex, Sign.NOUGHT);
 
@@ -68,6 +71,31 @@ public class LogicServlet extends HttpServlet {
             if (checkWin(resp, currentSession, field)){
                 return;
             }
+        }
+        /**
+         * Если пустой ячейки нет и никто не победил - значит это ничья
+         */
+        else {
+            /**
+             * Добавляем в сессию флаг, который сигнализирует что произошла ничья
+             */
+            currentSession.setAttribute("draw", true);
+
+            /**
+             * Считаем список значков
+             */
+            List<Sign> data = field.getFieldData();
+
+            /**
+             * Обновляем этот список в сессии
+             */
+            currentSession.setAttribute("data", data);
+
+            /**
+             * Шлем редирект
+             */
+            resp.sendRedirect("/index.jsp");
+            return;
         }
 
         /**
