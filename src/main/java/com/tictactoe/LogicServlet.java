@@ -36,7 +36,7 @@ public class LogicServlet extends HttpServlet {
          * Иначе ничего не делаем и отправляем пользователя на ту же страницу без изменений
          * параметров в сессии
          */
-        if (Sign.EMPTY == currentSign){
+        if (Sign.EMPTY != currentSign){
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
             dispatcher.forward(req, resp);
             return;
@@ -51,6 +51,7 @@ public class LogicServlet extends HttpServlet {
          * Получаем пустую ячейку поля
          */
         int emptyFieldIndex = field.getEmptyFieldIndex();
+
         if (emptyFieldIndex >= 0){
             field.getField().put(emptyFieldIndex, Sign.NOUGHT);
         }
@@ -69,14 +70,6 @@ public class LogicServlet extends HttpServlet {
         resp.sendRedirect("/index.jsp");
     }
 
-    private Field extractField(HttpSession currentSession){
-        Object fieldAttribute = currentSession.getAttribute("field");
-        if (Field.class != fieldAttribute.getClass()){
-            currentSession.invalidate();
-        }
-        return (Field) fieldAttribute;
-    }
-
     /**
      * Метод, который получает индекс ячейки, по которой произошел клик.
      */
@@ -84,5 +77,45 @@ public class LogicServlet extends HttpServlet {
         String click = request.getParameter("click");
         boolean isNumeric = click.chars().allMatch(Character::isDigit);
         return isNumeric ? Integer.parseInt(click) : 0;
+    }
+
+    private Field extractField(HttpSession currentSession){
+        Object fieldAttribute = currentSession.getAttribute("field");
+        if (Field.class != fieldAttribute.getClass()){
+            currentSession.invalidate();
+            throw new RuntimeException("Session is broken, try one more time");
+        }
+        return (Field) fieldAttribute;
+    }
+
+    /**
+     * Метод проверяет, нет ли трех крестиков/ноликов в ряд.
+     * Возвращает true/false
+     */
+    private boolean checkWin(HttpServletResponse response, HttpSession currentSession, Field field) throws IOException {
+        Sign winner = field.checkWin();
+        if (Sign.CROSS == winner || Sign.NOUGHT == winner){
+            /**
+             * Добавляем флаг, который показывает что кто-то победил
+             */
+            currentSession.setAttribute("winner", winner);
+
+            /**
+             * Считаем список значков
+             */
+            List<Sign> data = field.getFieldData();
+
+            /**
+             * Обновляем этот список в сессии
+             */
+            currentSession.setAttribute("data", data);
+
+            /**
+             * Шлем редирект
+             */
+            response.sendRedirect("/index.jsp");
+            return true;
+        }
+        return false;
     }
 }
