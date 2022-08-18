@@ -1,5 +1,6 @@
 package com.tictactoe;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,11 +29,31 @@ public class LogicServlet extends HttpServlet {
          * Получаем индекс ячейки, по которой произошел клик
          */
         int index = getSelectedIndex(req);
+        Sign currentSign = field.getField().get(index);
+
+        /**
+         * Проверяем, что ячейка, по которой был клик пустая.
+         * Иначе ничего не делаем и отправляем пользователя на ту же страницу без изменений
+         * параметров в сессии
+         */
+        if (Sign.EMPTY == currentSign){
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+            dispatcher.forward(req, resp);
+            return;
+        }
 
         /**
          * Ставим крестик в ячейке, по которой кликнул пользователь
          */
         field.getField().put(index,Sign.CROSS);
+
+        /**
+         * Получаем пустую ячейку поля
+         */
+        int emptyFieldIndex = field.getEmptyFieldIndex();
+        if (emptyFieldIndex >= 0){
+            field.getField().put(emptyFieldIndex, Sign.NOUGHT);
+        }
 
         /**
          * Считаем список значков
