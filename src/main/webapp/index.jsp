@@ -9,6 +9,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <script src="<c:url value="/static/jquery-3.6.0.min.js"/>"></script>
 </head>
+<body>
 <hr>
 <h1>Tic-Tac-Toe</h1>
 <div>
@@ -36,7 +37,7 @@
 <c:set var="NOUGHTS" value="<%=Sign.NOUGHT%>"/>
 
 <c:if test="${winner == CROSSES}">
-    <h1>CROSSES WIN!</h1>
+    <h2>CROSSES WIN!</h2>
     <button onclick="restart()">Start again</button>
 </c:if>
 <c:if test="${winner == NOUGHTS}">
