@@ -9,3 +9,37 @@ td {
     text-align: center;
     empty-cells: show;
 }
+
+div {
+    margin: auto;
+    width: 25%;
+    border: 3px solid black;
+    padding: 5px;
+    background-color: aqua;
+}
+
+body {
+    background-image: url("./images/backgroundpicture.jpg");
+}
+
+h1 {
+    border: 3px solid black;
+    width:300px;
+    margin: auto;
+    text-align: center;
+    background-color: chartreuse;
+}
+
+hr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid green;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid green;
+}
