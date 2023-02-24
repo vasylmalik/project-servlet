@@ -2,7 +2,7 @@
 
 <a href="https://github.com/LeeTovetz/JRU-JavaProfessional" >**Mini-project 04 on the topic: Servlets, JSP by JavaRush University**</a><br>
 
-Task: Write a " Tic-tac-toe" game using Servlets and JSP.<br> 
+Task: Write a "Tic-tac-toe" game using Servlets and JSP.<br> 
  
 To do this:<br>
 - Make a fork from the repository; 
