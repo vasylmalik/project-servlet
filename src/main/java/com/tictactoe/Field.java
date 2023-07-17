@@ -41,6 +41,7 @@ public class Field {
 
     public Sign checkWin() {
         List<List<Integer>> winPossibilities = List.of(
+
                 List.of(0, 1, 2),
                 List.of(3, 4, 5),
                 List.of(6, 7, 8),
@@ -53,7 +54,8 @@ public class Field {
 
         for (List<Integer> winPossibility : winPossibilities) {
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
+                && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
+                && field.get(winPossibility.get(0)) != Sign.EMPTY) {
                 return field.get(winPossibility.get(0));
             }
         }
