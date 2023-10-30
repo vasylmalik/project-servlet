@@ -1,8 +1,6 @@
 package com.tictactoe;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Field {
@@ -21,11 +19,23 @@ public class Field {
         field.put(8, Sign.EMPTY);
     }
 
+    public Field(Map<Integer, Sign> anotherField){
+        field = new HashMap<>(anotherField);
+    }
+
     public Map<Integer, Sign> getField() {
         return field;
     }
 
-    public int getEmptyFieldIndex() {
+    public int getFieldIndex() {
+        Field imagineField = new Field(field);
+
+        int index = getWinningIndex(Sign.NOUGHT, imagineField); //find winning move
+        if(index >= 0) return index;
+
+        index = getWinningIndex(Sign.CROSS, imagineField); //predict cross winning
+        if(index >= 0) return index;
+
         return field.entrySet().stream()
                 .filter(e -> e.getValue() == Sign.EMPTY)
                 .map(Map.Entry::getKey)
@@ -39,7 +49,7 @@ public class Field {
                 .collect(Collectors.toList());
     }
 
-    public Sign checkWin() {
+    public boolean checkWin(Sign sign) {
         List<List<Integer>> winPossibilities = List.of(
                 List.of(0, 1, 2),
                 List.of(3, 4, 5),
@@ -52,11 +62,26 @@ public class Field {
         );
 
         for (List<Integer> winPossibility : winPossibilities) {
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
-                return field.get(winPossibility.get(0));
+            if (field.get(winPossibility.get(0)) == sign
+                && field.get(winPossibility.get(1)) == sign
+                && field.get(winPossibility.get(2)) == sign) {
+                return true;
             }
         }
-        return Sign.EMPTY;
+        return false;
     }
+    public int getWinningIndex(Sign sign, Field imagineField) {
+        for (Map.Entry<Integer, Sign> entry: field.entrySet()) {
+            if(entry.getValue() == Sign.EMPTY){
+                imagineField.getField().put(entry.getKey(), sign);
+                if(imagineField.checkWin(sign)){
+                    return entry.getKey();
+                }
+                imagineField.getField().put(entry.getKey(), Sign.EMPTY);
+            }
+        }
+        return -1;
+    }
+
+
 }
