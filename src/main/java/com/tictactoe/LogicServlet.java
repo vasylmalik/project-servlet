@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
+
+import static com.tictactoe.Sign.*;
 
 @WebServlet(name = "LogicServlet", value = "/logic")
 public class LogicServlet extends HttpServlet {
@@ -20,13 +23,24 @@ public class LogicServlet extends HttpServlet {
         Field field = extractField(currentSession);
         int index = getSelectedIndex(req);
         Sign currentSign = field.getField().get(index);
-        if (Sign.EMPTY != currentSign) {
+        if (EMPTY != currentSign) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
             dispatcher.forward(req, resp);
             return;
         }
-        field.getField().put(index, Sign.CROSS);
+
+        field.getField().put(index, CROSS);
         int emptyFieldIndex = field.getEmptyFieldIndex();
+        if(checkWinner(field, currentSession, resp)) {
+            return;
+        }
+        if (emptyFieldIndex != -1) {
+            field.getField().put(emptyFieldIndex, NOUGHT);
+            if( checkWinner(field, currentSession, resp)) {
+                return;
+            }
+        }
+
         List<Sign> data = field.getFieldData();
         currentSession.setAttribute("data", data);
         currentSession.setAttribute("field", field);
@@ -46,6 +60,19 @@ public class LogicServlet extends HttpServlet {
             throw new RuntimeException("Session is broken, try one more time");
         }
         return (Field) fieldAttribute;
+    }
+
+    private boolean checkWinner(Field field, HttpSession currentSession, HttpServletResponse resp) throws IOException {
+        var winner = field.checkWin();
+        if (winner != EMPTY || field.getEmptyFieldIndex() == -1) {
+            currentSession.setAttribute("winner", winner);
+            List<Sign> data = field.getFieldData();
+            currentSession.setAttribute("data", data);
+            resp.sendRedirect("/index.jsp");
+            return true;
+
+        }
+        return false;
     }
 
 }

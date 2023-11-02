@@ -27,5 +27,10 @@
         <td onclick="window.location='/logic?click=7'">${data.get(7).getSign()}</td>
         <td onclick="window.location='/logic?click=8'">${data.get(8).getSign()}</td>
     </tr>
+
+
 </table>
+<c:if test="${sessionScope.winner eq Sign.CROSS}">
+    <h1>You win</h1>
+</c:if>
 </body>
