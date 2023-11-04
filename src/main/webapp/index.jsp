@@ -30,7 +30,30 @@
 
 
 </table>
-<c:if test="${sessionScope.winner eq Sign.CROSS}">
-    <h1>You win</h1>
-</c:if>
+<c:choose>
+    <c:when test="${sessionScope.winner eq Sign.CROSS}">
+        <h1>You win</h1>
+    </c:when>
+    <c:when test="${sessionScope.winner eq Sign.NOUGHT}">
+        <h1>You lose</h1>
+    </c:when>
+    <c:when test="${sessionScope.draw eq true}">
+        <h1>Draw</h1>
+        <button onclick="restart()">Start again</button>
+    </c:when>
+    <c:otherwise><h1>Playing</h1></c:otherwise>
+</c:choose>
+<script>
+    function restart() {
+        $.ajax({
+            url: "/restart",
+            type: 'POST',
+            contentType:'application/json; charset=UTF-8',
+            async:false,
+            success:function () {
+                location.reload()
+            }
+        })
+    }
+</script>
 </body>

@@ -40,6 +40,13 @@ public class LogicServlet extends HttpServlet {
                 return;
             }
         }
+        else  {
+        currentSession.setAttribute("draw", true);
+            List<Sign> data = field.getFieldData();
+            currentSession.setAttribute("data", data);
+            resp.sendRedirect("/index.jsp");
+            return;
+        }
 
         List<Sign> data = field.getFieldData();
         currentSession.setAttribute("data", data);
@@ -64,7 +71,7 @@ public class LogicServlet extends HttpServlet {
 
     private boolean checkWinner(Field field, HttpSession currentSession, HttpServletResponse resp) throws IOException {
         var winner = field.checkWin();
-        if (winner != EMPTY || field.getEmptyFieldIndex() == -1) {
+        if (winner != EMPTY) {
             currentSession.setAttribute("winner", winner);
             List<Sign> data = field.getFieldData();
             currentSession.setAttribute("data", data);
