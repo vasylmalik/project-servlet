@@ -7,11 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
 
 import static com.tictactoe.Sign.*;
 
@@ -31,17 +28,16 @@ public class LogicServlet extends HttpServlet {
 
         field.getField().put(index, CROSS);
         int emptyFieldIndex = field.getEmptyFieldIndex();
-        if(checkWinner(field, currentSession, resp)) {
+        if (checkWinner(field, currentSession, resp)) {
             return;
         }
         if (emptyFieldIndex != -1) {
             field.getField().put(emptyFieldIndex, NOUGHT);
-            if( checkWinner(field, currentSession, resp)) {
+            if (checkWinner(field, currentSession, resp)) {
                 return;
             }
-        }
-        else  {
-        currentSession.setAttribute("draw", true);
+        } else {
+            currentSession.setAttribute("draw", true);
             List<Sign> data = field.getFieldData();
             currentSession.setAttribute("data", data);
             resp.sendRedirect("/index.jsp");
