@@ -17,16 +17,16 @@ public class InitServlet extends HttpServlet {
         // Створення нової сесії
         HttpSession currentSession = req.getSession(true);
 
-        // Створення ігрового поля поля
+        // Створення ігрового поля
         Field field = new Field();
         Map<Integer, Sign> fieldData = field.getField();
 
         // Отримання списку значень поля
         List<Sign> data = field.getFieldData();
 
-        // Додавання до сесії параметрів поля (буде потрібно для зберігання стану між запитами)
+        // Додавання до сесії параметрів поля (потрібно буде для зберігання стану між запитами)
         currentSession.setAttribute("field", field);
-        // і значень поля, відсортованих за індексом (потрібно для промалювання хрестиків і нуликів)
+        // та значень поля, що відсортовані за індексом (потрібно для промальовки хрестиків і нуликів)
         currentSession.setAttribute("data", data);
 
         // Перенаправлення запиту на сторінку index.jsp через сервер
