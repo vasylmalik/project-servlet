@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Field {
     private final Map<Integer, Sign> field;
+    private static final Logger LOGGER = LogManager.getLogger(Field.class);
 
     public Field() {
         field = new HashMap<>();
@@ -40,6 +43,7 @@ public class Field {
     }
 
     public Sign checkWin() {
+        LOGGER.info("Checking for winner");
         List<List<Integer>> winPossibilities = List.of(
                 List.of(0, 1, 2),
                 List.of(3, 4, 5),
@@ -53,7 +57,7 @@ public class Field {
 
         for (List<Integer> winPossibility : winPossibilities) {
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
+                    && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
                 return field.get(winPossibility.get(0));
             }
         }
