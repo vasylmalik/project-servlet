@@ -5,13 +5,8 @@ public enum Sign {
     CROSS('X'),
     NOUGHT('0');
 
-    private final char sign;
+   private final char sign;
+   Sign(char sign) {this.sign = sign; }
+   public char getSign() {return sign;}
 
-    Sign(char sign) {
-        this.sign = sign;
-    }
-
-    public char getSign() {
-        return sign;
-    }
 }
