@@ -58,8 +58,15 @@ h1 {
     transform: scale(1.02);
 }
 
-.cell.x { color: #ff4d6d; text-shadow: 0 0 10px #ff4d6d; }
-.cell.o { color: #00d4ff; text-shadow: 0 0 10px #00d4ff; }
+.cell.x {
+    color: #ff4d6d;
+    text-shadow: 0 0 10px #ff4d6d;
+}
+
+.cell.o {
+    color: #00d4ff;
+    text-shadow: 0 0 10px #00d4ff;
+}
 
 .controls {
     height: 120px;
