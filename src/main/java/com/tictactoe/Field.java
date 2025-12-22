@@ -53,10 +53,10 @@ public class Field {
 
         for (List<Integer> winPossibility : winPossibilities) {
             Sign sign0 = field.get(winPossibility.get(0));
-            if ((sign0 == field.get(winPossibility.get(1)))
-                    && (sign0 == field.get(winPossibility.get(2)))
-                    && (sign0 != Sign.EMPTY)) {
-                return field.get(winPossibility.get(0));
+            if ((sign0 != Sign.EMPTY)
+                    && (sign0 == field.get(winPossibility.get(1)))
+                    && (sign0 == field.get(winPossibility.get(2)))) {
+                return sign0;
             }
         }
         return Sign.EMPTY;

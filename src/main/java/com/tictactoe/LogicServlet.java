@@ -77,7 +77,7 @@ public class LogicServlet extends HttpServlet {
                              HttpSession currentSession,
                              Field field) throws IOException, ServletException {
         Sign winner = field.checkWin();
-        if (Sign.CROSS == winner || Sign.NOUGHT == winner) {
+        if (winner != Sign.EMPTY) {
             currentSession.setAttribute("winner", winner);
             List<Sign> data = field.getFieldData();
             currentSession.setAttribute("data", data);

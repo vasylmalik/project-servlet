@@ -72,7 +72,7 @@
         });
     }
 
-    <c:if test="${draw || (winner != null)}">
+    <c:if test="${(winner != null) || draw}">
     document.getElementById('endGameUI').classList.add('show');
     </c:if>
 </script>
