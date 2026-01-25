@@ -7,7 +7,11 @@
 </head>
 <body>
 <h1>Tic-Tac-Toe</h1>
-
+<tr>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+</tr>
 
 <script>
 
