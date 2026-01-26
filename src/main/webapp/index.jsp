@@ -44,6 +44,12 @@
     <button onclick="restart()">Start again</button>
 </c:if>
 
+<c:if test="${draw}">
+    <h1>IT'S A DRAW</h1>
+    <br>
+    <button onclick="restart()">Start again</button>
+</c:if>
+
 <script>
     function restart(){
         $.ajax({
