@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "LogicServlet",  value = "/logic")
+@WebServlet(name = "LogicServlet", value = "/logic")
 public class LogicServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class LogicServlet extends HttpServlet {
         currentSession.setAttribute("field", field);
         resp.sendRedirect("/index.jsp");
     }
-    
+
     private int getSelectedIndex(HttpServletRequest req) {
         String click = req.getParameter("click");
         boolean isNumeric = click.chars().allMatch(Character::isDigit);
@@ -52,5 +52,17 @@ public class LogicServlet extends HttpServlet {
             throw new RuntimeException("Session is broken, try one more time");
         }
         return (Field) fieldAttribute;
+    }
+
+    private boolean checkWin(HttpServletResponse response, HttpSession currentSession, Field field) throws IOException {
+        Sign winner = field.checkWin();
+        if (Sign.CROSS == winner || Sign.NOUGHT == winner) {
+            currentSession.setAttribute("winner", winner);
+            List<Sign> data = field.getFieldData();
+            currentSession.setAttribute("data", data);
+            response.sendRedirect("/index.jsp");
+            return true;
+        }
+        return false;
     }
 }
