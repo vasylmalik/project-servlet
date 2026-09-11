@@ -1,4 +1,4 @@
-package com.tictactoe;
+package com.tictactoe.entity;
 
 import java.util.HashMap;
 import java.util.List;
